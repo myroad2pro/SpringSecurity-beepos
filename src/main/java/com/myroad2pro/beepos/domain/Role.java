@@ -1,10 +1,13 @@
 package com.myroad2pro.beepos.domain;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -17,6 +20,9 @@ public class Role {
 	
 	@Column(name = "name", nullable = false)
 	private String name;
+	
+	@ManyToMany(mappedBy = "roles")
+	private Set<Account> accounts;
 
 	public int getId() {
 		return id;
@@ -33,6 +39,14 @@ public class Role {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public Set<Account> getAccounts() {
+		return accounts;
+	}
+
+	public void setAccounts(Set<Account> accounts) {
+		this.accounts = accounts;
+	}
 
 	public Role(String name) {
 		super();
@@ -42,6 +56,4 @@ public class Role {
 	public Role() {
 		super();
 	}
-	
-	
 }

@@ -1,5 +1,7 @@
 package com.myroad2pro.beepos.domain;
 
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -32,11 +35,11 @@ public class Account {
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "account")
 	private Profile profile;
 	
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "role_account",
 				joinColumns = @JoinColumn(name = "account_id"),
 				inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private Role role;
+	private Set<Role> roles;
 
 	public int getId() {
 		return id;
@@ -70,22 +73,22 @@ public class Account {
 		this.profile = profile;
 	}
 
-	public Role getRole() {
-		return role;
+	public Set<Role> getRoles() {
+		return roles;
 	}
 
-	public void setRole(Role role) {
-		this.role = role;
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
-
-	public Account(@Email String email, String password, Profile profile, Role role) {
+	
+	public Account(@Email String email, String password, Profile profile, Set<Role> roles) {
 		super();
 		this.email = email;
 		this.password = password;
 		this.profile = profile;
-		this.role = role;
+		this.roles = roles;
 	}
-	
+
 	public Account() {
 		
 	}

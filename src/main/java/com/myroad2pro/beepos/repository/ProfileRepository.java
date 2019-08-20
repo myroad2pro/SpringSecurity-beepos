@@ -11,6 +11,8 @@ import com.myroad2pro.beepos.domain.Profile;
 
 @Repository
 public interface ProfileRepository extends CrudRepository<Profile, Integer> {
+	Profile findByName(String name);
+	
 	List<Profile> findByNameContaining(String term);
 	
 	List<Profile> findByGender(Gender gender);

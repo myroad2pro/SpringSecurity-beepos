@@ -1,7 +1,6 @@
 package com.myroad2pro.beepos.domain;
 
-import java.util.Date;
-
+import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -23,23 +22,21 @@ public class Profile {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
-	
+
 	@Column(name = "name", nullable = false)
 	private String name;
-	
+
 	@Enumerated(EnumType.STRING)
 	@Column(length = 10)
 	private Gender gender;
-	
+
 	@Column(name = "birthday")
-	private Date birthday;
-	
+	private LocalDate birthday;
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinTable(name = "department_profiles", 
-			joinColumns = @JoinColumn(name = "profile_id"),
-			inverseJoinColumns = @JoinColumn(name = "department_id"))
+	@JoinTable(name = "department_profiles", joinColumns = @JoinColumn(name = "profile_id"), inverseJoinColumns = @JoinColumn(name = "department_id"))
 	private Department department;
-	
+
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "account_id")
 	private Account account;
@@ -68,11 +65,11 @@ public class Profile {
 		this.gender = gender;
 	}
 
-	public Date getBirthday() {
+	public LocalDate getBirthday() {
 		return birthday;
 	}
 
-	public void setBirthday(Date birthday) {
+	public void setBirthday(LocalDate birthday) {
 		this.birthday = birthday;
 	}
 
@@ -92,7 +89,7 @@ public class Profile {
 		this.account = account;
 	}
 
-	public Profile(String name, Gender gender, Date birthday, Department department, Account account) {
+	public Profile(String name, Gender gender, LocalDate birthday, Department department, Account account) {
 		super();
 		this.name = name;
 		this.gender = gender;
@@ -104,6 +101,5 @@ public class Profile {
 	public Profile() {
 		super();
 	}
-	
-	
+
 }

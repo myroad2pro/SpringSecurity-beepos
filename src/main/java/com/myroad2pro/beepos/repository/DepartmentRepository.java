@@ -9,6 +9,8 @@ import com.myroad2pro.beepos.domain.Department;
 
 @Repository
 public interface DepartmentRepository extends CrudRepository<Department, Integer>{
+	Department findByName(String name);
+	
 	List<Department> findByNameContaining(String term);
 	
 	List<Department> findByBranchId(Integer branchId);
