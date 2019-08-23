@@ -7,5 +7,5 @@ import com.myroad2pro.beepos.domain.Hashtag;
 
 @Repository
 public interface HashtagRepository extends CrudRepository<Hashtag, Integer>{
-	Hashtag findByName(String name);
+	Hashtag findByTag(String tag);
 }

@@ -33,15 +33,15 @@ public class Gift {
 	@Column(name = "sentTime", nullable = false)
 	private Date sentTime;
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinTable(name = "account_gift", 
+	@ManyToOne(optional = false)
+	@JoinTable(name = "gift_sender", 
 			joinColumns = @JoinColumn(name = "gift_id"), 
 			inverseJoinColumns = @JoinColumn(name = "sender_id"))
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Account sender;
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinTable(name = "account_gift", 
+	@JoinTable(name = "gift_receiver", 
 			joinColumns = @JoinColumn(name = "gift_id"), 
 			inverseJoinColumns = @JoinColumn(name = "receiver_id"))
 	@OnDelete(action = OnDeleteAction.CASCADE)

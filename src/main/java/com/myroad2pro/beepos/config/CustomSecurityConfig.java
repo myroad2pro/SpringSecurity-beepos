@@ -22,7 +22,7 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder(23, new SecureRandom());
+		return new BCryptPasswordEncoder();
 	}
 
 	@Autowired
@@ -35,13 +35,15 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
 		super.configure(http);
 		http
 			.authorizeRequests()
-				.antMatchers("register").permitAll()
 				.antMatchers("/").hasRole("MEMBER")
 				.antMatchers("/admin").hasRole("ADMIN")
+				.antMatchers("/profile").hasRole("MEMBER")
+				.antMatchers("/403").permitAll()
 				.and()
 			.formLogin()
 				.loginPage("/login")
-				.usernameParameter("username")
+				.permitAll()
+				.usernameParameter("email")
 				.passwordParameter("password")
 				.defaultSuccessUrl("/")
 				.failureUrl("/login?error")
