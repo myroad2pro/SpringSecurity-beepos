@@ -21,5 +21,5 @@ public interface ProfileRepository extends CrudRepository<Profile, Integer> {
 	
 	List<Profile> findByDepartmentId(Integer departmentId);
 	
-	List<Profile> findByAccountId(Integer accountId);
+	Profile findByAccountId(Integer accountId);
 }

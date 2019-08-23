@@ -113,7 +113,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 			accountRepository.save(admin);
 		}
 		
-		if(profileRepository.findByNameContaining("Admin") == null) {
+		if(profileRepository.findByNameContaining("Admin").isEmpty()) {
 			Profile adminProfile = new Profile();
 			adminProfile.setName("Admin");
 			adminProfile.setAccount(accountRepository.findByEmail("admin@bee.com"));
@@ -134,7 +134,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 			accountRepository.save(member);
 		}
 		
-		if(profileRepository.findByNameContaining("Member") == null) {
+		if(profileRepository.findByNameContaining("Member").isEmpty()) {
 			Profile memberProfile = new Profile();
 			memberProfile.setName("Member");
 			memberProfile.setAccount(accountRepository.findByEmail("member@bee.com"));
