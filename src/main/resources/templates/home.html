@@ -34,15 +34,37 @@
 				<!-- ./friend requests -->
 			</div>
 			<div class="col-md-6">
-				<!-- post form -->
-				<form method="post" action="">
-					<div class="input-group">
-						<input class="form-control" type="text" name="content"
-							placeholder="Make a post..."> <span
-							class="input-group-btn">
-							<button class="btn btn-success" type="submit" name="post">Post</button>
-						</span>
+				<form th:action="@{/gifts}" method="post">
+					<div class="form-group">
+						<input type="text" class="form-control" id="receiver"
+							aria-describedby="account name"
+							placeholder="Viết lời cảm ơn tới..."> <input
+							type="hidden" id="receiver_id" name="receiverId">
 					</div>
+					<div class="form-group">
+						<label for="message">Message</label>
+						<textarea class="form-control" id="message" rows="3"
+							name="message"></textarea>
+					</div>
+					<div class="form-group">
+						<label for="points">Points</label> <select name="points"
+							class="form-control" id="points">
+							<option>50</option>
+							<option>100</option>
+							<option>200</option>
+							<option>300</option>
+							<option>400</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="hashTag">Hash Tag</label> <select name="hashTag"
+							class="form-control" id="hashTag">
+							<c:forEach var="hashTag" items="${hashTags}">
+								<option>${hashTag.tag}</option>
+							</c:forEach>
+						</select>
+					</div>
+					<button type="submit" class="btn btn-primary">Send gift</button>
 				</form>
 				<hr>
 				<!-- ./post form -->
@@ -98,5 +120,26 @@
 		</ul>
 	</footer>
 	<!-- ./footer -->
+
+	<script type="text/javascript">
+		$(function() {
+			$("#receiver").autocomplete({
+				source : "receiverAutocomplete",
+				minLength : 3,
+				focus: function(event, ui){
+					event.preventDefault();
+					$(this).val(ui.item.label);
+					return false;
+				},
+				select: function(event, ui){
+					event.preventDefault();
+					$(this).val(ui.item.label);
+					$("#receiver_id").val(ui.item.value);
+					return false;
+				}
+			});
+		});
+	</script>
+
 </body>
 </html>

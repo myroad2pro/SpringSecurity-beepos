@@ -22,9 +22,14 @@
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+<script src="https://code.jquery.com/jquery-3.4.1.js"
+	integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
 	crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+	integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+	crossorigin="anonymous"></script>
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
 	integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
@@ -36,7 +41,8 @@
 </head>
 <body>
 	<!-- nav -->
-	<nav th:fragment="header" class="navbar navbar-expand-sm navbar-dark bg-dark mb-sm-3">
+	<nav th:fragment="header"
+		class="navbar navbar-expand-sm navbar-dark bg-dark mb-sm-3">
 		<a class="navbar-brand" th:href="@{/}"><h1>BeePos</h1></a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbarSupportedContent"
@@ -45,7 +51,8 @@
 			<span class="navbar-toggler-icon"></span>
 		</button>
 
-		<div sec:authorize="isAuthenticated()" class="collapse navbar-collapse" id="navbarSupportedContent">
+		<div sec:authorize="isAuthenticated()"
+			class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="nav navbar-nav navbar-right ml-auto">
 				<li class="nav-item active"><a class="nav-link" th:href="@{/}">Home</a></li>
 				<li class="nav-item"><a class="nav-link" th:href="@{/profile}">Profile</a></li>

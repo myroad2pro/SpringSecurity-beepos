@@ -1,5 +1,7 @@
 package com.myroad2pro.beepos.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,11 @@ public class ProfileServiceImpl implements ProfileService {
 	@Override
 	public Profile findOne(Integer accountId) {
 		return profileRepository.findByAccountId(accountId);
+	}
+
+	@Override
+	public List<Profile> search(String term) {
+		return profileRepository.findByNameContaining(term);
 	}
 
 }
