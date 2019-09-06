@@ -7,6 +7,8 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta th:name="_csrf" th:content="${_csrf.token}" />
+<meta th:name="_csrf_header" th:content="${_csrf.headerName}" />
 
 <!-- Bootstrap CSS -->
 <link rel="stylesheet"
@@ -38,6 +40,17 @@
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 	crossorigin="anonymous"></script>
+<script type="text/javascript">
+	$(function() {
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		$(document).ajaxSend(function(e, xhr, options) {
+			if (options.type == "POST") {
+				xhr.setRequestHeader(header, token);
+			}
+		});
+	})
+</script>
 </head>
 <body>
 	<!-- nav -->
@@ -66,6 +79,27 @@
 	</nav>
 	<!-- ./nav -->
 
+	<div class="card" th:fragment="profileFragment">
+		<div class="card-body">
+			<h4>Thông tin cá nhân</h4>
+			<p>
+				Giới tính: <span
+					th:text="(${profile.gender} == 'MALE') ? 'Nam' : 'Nữ'"></span>
+			</p>
+			<p>
+				Ngày sinh: <span th:text="${profile.birthday}"></span>
+			</p>
+			<p>
+				Giới thiệu: <span th:text="${profile.introduction}"></span>
+			</p>
+			<p>
+				Sở thích: <span th:text="${profile.hobby}"></span>
+			</p>
+			<button class="btn btn-primary" id="editProfileButton">Chỉnh
+				sửa</button>
+		</div>
+	</div>
+
 	<!-- footer -->
 	<footer class="container text-center" th:fragment="footer">
 		<ul class="nav nav-pills pull-right">
@@ -73,5 +107,11 @@
 		</ul>
 	</footer>
 	<!-- ./footer -->
+
+	<div id="loading" th:fragment="loadingGIF" hidden>
+		<p>
+			<img alt="loading" src="img/ajax-loader.gif" /> Updating. Please Wait...
+		</p>
+	</div>
 </body>
 </html>

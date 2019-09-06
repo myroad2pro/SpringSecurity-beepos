@@ -10,22 +10,14 @@
 	<!-- main -->
 	<div class="container">
 		<div class="row">
-			<div class="col-md-3">
+			<div class="col-md-3 col-lg-3 col-xl-3">
 				<!-- edit profile -->
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<h4>Giới thiệu</h4>
-						<p>Giới tính: <span th:text="(${profile.gender} == 1)? 'Nam' : 'Nữ'" ></span></p>
-						<p>Ngày sinh: <span th:text="${profile.birthday}"></span></p>
-						<p>Bộ phận: <span th:text="${profile.department}"></span></p>
-<!-- 						<p th:text="${profile.branch}"> -->
-<!-- 						<p th:value="#{profile.hobby}"> -->
-					</div>
-					<button class="btn btn-primary" th:action="@{/edit}">Chỉnh sửa</button>
+				<div id="profileDiv">
+					<div th:replace="layout :: profileFragment"></div>
 				</div>
 				<!-- ./edit profile -->
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-6 col-lg-6 col-xl-6">
 				<!-- user profile -->
 				<div class="media">
 					<div class="media-left">
@@ -34,42 +26,26 @@
 					</div>
 					<div class="media-body">
 						<h2 class="media-heading" th:text="${profile.name}"></h2>
-						<p>Status: I love to code!, Location: Nigeria</p>
+						<p th:text="${email}"></p>
 					</div>
 				</div>
 				<!-- user profile -->
 
 				<hr>
+				<div class="mb-md-3">
+					Your Gifts: <select id="selectGifts"
+						onfocus="this.selectedIndex = -1">
+						<option value="all" selected="selected">All</option>
+						<option value="received">Received</option>
+						<option value="sent">Sent</option>
+					</select>
+				</div>
+				<div id="giftList">
+					<div th:replace="gift :: giftListFragment"></div>
+				</div>
 
-				<!-- timeline -->
-				<div>
-					<!-- post -->
-					<div class="panel panel-default">
-						<div class="panel-body">
-							<p>Hello people! This is my first FaceClone post. Hurray!!!</p>
-						</div>
-						<div class="panel-footer">
-							<span>posted 2017-5-27 20:45:01 by nicholaskajoh</span> <span
-								class="pull-right"><a class="text-danger" href="#">[delete]</a></span>
-						</div>
-					</div>
-					<!-- ./post -->
-				</div>
-				<!-- ./timeline -->
 			</div>
-			<div class="col-md-3">
-				<!-- friends -->
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<h4>Friends</h4>
-						<ul>
-							<li><a href="#">peterpan</a> <a class="text-danger" href="#">[unfriend]</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-				<!-- ./friends -->
-			</div>
+			<div th:replace="gift :: giftSummary"></div>
 		</div>
 	</div>
 	<!-- ./main -->
@@ -77,6 +53,61 @@
 	<!-- footer -->
 	<footer th:replace="layout :: footer"> </footer>
 	<!-- ./footer -->
-	<!-- ./footer -->
+
+	<div title="Chỉnh sửa thông tin cá nhân" id="editProfileDialog">
+		<form th:action="@{/editProfile}" method="post" id="editProfileForm">
+			<div class="form-group">
+				<label for="introduction">Giới thiệu bản thân</label>
+				<textarea class="form-control" rows="5" name="introduction"
+					id="introduction"></textarea>
+			</div>
+			<div class="form-group">
+				<label for="hobby">Sở thích</label> <input class="form-control"
+					type="text" name="hobby" id="hobby">
+			</div>
+			<button type="submit" class="btn btn-primary" id="finishEditProfile">Chỉnh
+				sửa</button>
+		</form>
+	</div>
+	
+	<div th:replace="layout :: loadingGIF"></div>
+	<script type="text/javascript">
+		$(function() {
+			$("#selectGifts").change(function() {
+				$("#giftList").empty();
+				var url = "/userGifts?option=" + $(this).val();
+				$("#giftList").load(url);
+			});
+
+			var dialog = $("#editProfileDialog").dialog({
+				autoOpen : false,
+				modal : true,
+				width : 640,
+				close : function() {
+					form[0].reset();
+					allFields.removeClass("ui-state-error");
+				}
+			});
+
+			$("#editProfileButton").click(function() {
+				dialog.dialog("open");
+			});
+
+			$("#editProfileForm").submit(function(event) {
+				event.preventDefault();
+
+				$.post("/editProfile", $("#editProfileForm").serialize());
+				$("#profileDiv").append($("#loading"));
+				$("#loading").show();
+				setTimeout(function() { // Delay for Chrome
+					$("#profileDiv").empty();	
+					var url = "/getProfile";
+					$("#profileDiv").load(url);
+				}, 1000);
+				
+				dialog.dialog("close");
+			});
+		})
+	</script>
 </body>
 </html>

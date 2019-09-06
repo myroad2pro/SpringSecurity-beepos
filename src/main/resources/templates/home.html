@@ -11,10 +11,10 @@
 	<!-- main -->
 	<div class="container">
 		<div class="row">
-			<div class="col-md-3">
+			<div class="col-md-3 col-lg-3 col-xl-3">
 				<!-- profile brief -->
-				<div class="panel panel-default">
-					<div class="panel-body">
+				<div class="card text-right">
+					<div class="card-body">
 						<h4>nicholaskajoh</h4>
 						<p>I love to code!</p>
 					</div>
@@ -22,8 +22,8 @@
 				<!-- ./profile brief -->
 
 				<!-- friend requests -->
-				<div class="panel panel-default">
-					<div class="panel-body">
+				<div class="card text-right">
+					<div class="card-body">
 						<h4>friend requests</h4>
 						<ul>
 							<li><a href="#">johndoe</a> <a class="text-success" href="#">[accept]</a>
@@ -33,82 +33,60 @@
 				</div>
 				<!-- ./friend requests -->
 			</div>
-			<div class="col-md-6">
-				<form th:action="@{/gifts}" method="post">
-					<div class="form-group">
-						<input type="text" class="form-control" id="receiver"
-							aria-describedby="account name"
-							placeholder="Viết lời cảm ơn tới..."> <input
-							type="hidden" id="receiver_id" name="receiverId">
+			<div class="col-md-6 col-lg-6 col-xl-6">
+				<div class="card">
+					<div class="card-body">
+						<form th:action="@{/sendGift}" method="post" th:id="giftForm">
+							<div class="form-group">
+								<input type="text" class="form-control" id="receiver"
+									aria-describedby="account name"
+									placeholder="Viết lời cảm ơn tới..."> <input
+									type="hidden" id="receiver_id" name="receiverId">
+							</div>
+							<div class="form-group">
+								<label for="message">Message</label>
+								<textarea class="form-control" id="message" rows="3"
+									name="message"></textarea>
+							</div>
+							<div class="form-group">
+								<label for="points">Points</label> <select name="points"
+									class="form-control" id="points">
+									<option>50</option>
+									<option>100</option>
+									<option>200</option>
+									<option>300</option>
+									<option>400</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="hashTag">Hash Tag</label>
+								<th:block th:if="${#lists.isEmpty(hashtagList)}">
+						No hashtag available</th:block>
+								<th:block th:unless="${#lists.isEmpty(hashtagList)}">
+									<select name="hashTag" class="form-control" id="hashTag">
+										<option th:each="hashtag, iterStat : ${hashtagList}"
+											th:value="${hashtag.tag}" th:text="${hashtag.tag}"></option>
+									</select>
+								</th:block>
+
+							</div>
+							<button type="submit" class="btn btn-primary" id="sendGiftButton">Send
+								gift</button>
+						</form>
 					</div>
-					<div class="form-group">
-						<label for="message">Message</label>
-						<textarea class="form-control" id="message" rows="3"
-							name="message"></textarea>
-					</div>
-					<div class="form-group">
-						<label for="points">Points</label> <select name="points"
-							class="form-control" id="points">
-							<option>50</option>
-							<option>100</option>
-							<option>200</option>
-							<option>300</option>
-							<option>400</option>
-						</select>
-					</div>
-					<div class="form-group">
-						<label for="hashTag">Hash Tag</label> <select name="hashTag"
-							class="form-control" id="hashTag">
-							<c:forEach var="hashTag" items="${hashTags}">
-								<option>${hashTag.tag}</option>
-							</c:forEach>
-						</select>
-					</div>
-					<button type="submit" class="btn btn-primary">Send gift</button>
-				</form>
+
+				</div>
+
 				<hr>
 				<!-- ./post form -->
 
 				<!-- feed -->
-				<div>
-					<!-- post -->
-					<div class="panel panel-default">
-						<div class="panel-body">
-							<p>Hello people! This is my first FaceClone post. Hurray!!!</p>
-						</div>
-						<div class="panel-footer">
-							<span>posted 2017-5-27 20:45:01 by nicholaskajoh</span> <span
-								class="pull-right"><a class="text-danger" href="#">[delete]</a></span>
-						</div>
-					</div>
-					<!-- ./post -->
+				<div id="giftList">
+					<div th:replace="gift :: giftListFragment"></div>
 				</div>
 				<!-- ./feed -->
 			</div>
-			<div class="col-md-3">
-				<!-- add friend -->
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<h4>add friend</h4>
-						<ul>
-							<li><a href="#">alberte</a> <a href="#">[add]</a></li>
-						</ul>
-					</div>
-				</div>
-				<!-- ./add friend -->
-
-				<!-- friends -->
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<h4>friends</h4>
-						<ul>
-							<li><a href="#">peterpan</a> <a class="text-danger" href="#">[unfriend]</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-				<!-- ./friends -->
-			</div>
+			<div th:replace="gift :: giftSummary"></div>
 		</div>
 	</div>
 	<!-- ./main -->
@@ -126,20 +104,26 @@
 			$("#receiver").autocomplete({
 				source : "receiverAutocomplete",
 				minLength : 3,
-				focus: function(event, ui){
-					event.preventDefault();
-					$(this).val(ui.item.label);
-					return false;
-				},
-				select: function(event, ui){
+				select : function(event, ui) {
 					event.preventDefault();
 					$(this).val(ui.item.label);
 					$("#receiver_id").val(ui.item.value);
 					return false;
 				}
 			});
+
+			$("#giftForm").submit(function(event) {
+				event.preventDefault();
+
+				$.post("/sendGift", $("#giftForm").serialize());
+
+				setTimeout(function() { // Delay for Chrome
+					$("#giftList").empty();
+					var url = "/userGifts?option=all";
+					$("#giftList").load(url);
+				}, 1000);
+			});
 		});
 	</script>
-
 </body>
 </html>

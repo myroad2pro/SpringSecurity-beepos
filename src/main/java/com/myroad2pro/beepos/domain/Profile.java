@@ -32,6 +32,12 @@ public class Profile {
 
 	@Column(name = "birthday")
 	private LocalDate birthday;
+	
+	@Column(name = "introduction")
+	private String introduction;
+	
+	@Column(name = "hobby")
+	private String hobby;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinTable(name = "department_profiles", joinColumns = @JoinColumn(name = "profile_id"), inverseJoinColumns = @JoinColumn(name = "department_id"))
@@ -87,6 +93,23 @@ public class Profile {
 
 	public void setAccount(Account account) {
 		this.account = account;
+	}
+
+	
+	public String getIntroduction() {
+		return introduction;
+	}
+
+	public void setIntroduction(String introduction) {
+		this.introduction = introduction;
+	}
+
+	public String getHobby() {
+		return hobby;
+	}
+
+	public void setHobby(String hobby) {
+		this.hobby = hobby;
 	}
 
 	public Profile(String name, Gender gender, LocalDate birthday, Department department, Account account) {

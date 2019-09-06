@@ -30,7 +30,7 @@ public class Gift {
 	@Column(name = "point", nullable = false)
 	private int point;
 
-	@Column(name = "sentTime", nullable = false)
+	@Column(name = "sent_time", nullable = false)
 	private Date sentTime;
 
 	@ManyToOne(optional = false)

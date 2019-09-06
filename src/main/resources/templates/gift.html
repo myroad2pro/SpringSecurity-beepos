@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<div th:unless="${#lists.isEmpty(giftInfoList)}"
+		th:fragment="giftListFragment">
+		<div th:each="gift,iterStat : ${giftInfoList}" class="card mb-sm-3">
+			<h6 class="card-header" th:text="${gift.hashtag}"></h6>
+			<div class="card-body">
+				<h5 class="card-title">
+					<span class="font-weight-bold" th:text="${gift.sender}"></span> to
+					<span class="font-weight-bold" th:text="${gift.receiver}"></span>
+				</h5>
+				<h6 class="card-subtitle">
+					<span th:text="${gift.points}"></span> points
+				</h6>
+				<p class="card-text" th:text="${gift.message}"></p>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-3 col-lg-3 col-xl-3" th:fragment="giftSummary">
+		<!-- friends -->
+		<div class="card">
+			<div class="card-body">
+				<h4>Sent Gifts</h4>
+				<ul>
+					<li>Total Sent Gifts: <span th:text="${sentGiftsAmount}"></span></li>
+					<li>Total Sent Points: <span th:text="${totalSentPoints}"></span></li>
+				</ul>
+			</div>
+		</div>
+		<div class="card">
+			<div class="card-body">
+				<h4>Received Gifts</h4>
+				<ul>
+					<li>Total Received Gifts: <span
+						th:text="${receivedGiftsAmount}"></span></li>
+					<li>Total Received Points: <span
+						th:text="${totalReceivedPoints}"></span></li>
+				</ul>
+			</div>
+		</div>
+		<!-- ./friends -->
+	</div>
+</body>
+</html>
