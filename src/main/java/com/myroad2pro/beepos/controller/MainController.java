@@ -63,7 +63,7 @@ public class MainController {
 		
 		model.addAttribute("hashtagList", hashtagService.findAll());
 		List<GiftInfo> giftInfoList = new ArrayList<GiftInfo>();
-		Iterable<Gift> giftList = giftService.findAll();
+		Iterable<Gift> giftList = giftService.findAllOrderBySenttimeDesc();
 		for (Gift gift : giftList) {
 			GiftInfo giftInfo = new GiftInfo(gift.getSender().getProfile().getName(),
 					gift.getReceiver().getProfile().getName(), gift.getPoint(), gift.getMessage(),

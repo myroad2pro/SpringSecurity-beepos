@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -38,6 +39,10 @@ public class Profile {
 	
 	@Column(name = "hobby")
 	private String hobby;
+	
+	@Lob
+	@Column(name = "avatar")
+	private byte[] avatar;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinTable(name = "department_profiles", joinColumns = @JoinColumn(name = "profile_id"), inverseJoinColumns = @JoinColumn(name = "department_id"))
@@ -110,6 +115,14 @@ public class Profile {
 
 	public void setHobby(String hobby) {
 		this.hobby = hobby;
+	}
+
+	public byte[] getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(byte[] avatar) {
+		this.avatar = avatar;
 	}
 
 	public Profile(String name, Gender gender, LocalDate birthday, Department department, Account account) {

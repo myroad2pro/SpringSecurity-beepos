@@ -1,6 +1,5 @@
 package com.myroad2pro.beepos.service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -44,13 +43,13 @@ public class GiftServiceImpl implements GiftService{
 
 	@Override
 	public List<Gift> findSentGifts(Integer senderId) {
-		return giftRepository.findBySenderId(senderId);
+		return giftRepository.findBySenderIdOrderBySentTimeDesc(senderId);
 	}
 
 	@Override
 	public List<Gift> findReceivedGifts(Integer receiverId) {
 		// TODO Auto-generated method stub
-		return giftRepository.findByReceiverId(receiverId);
+		return giftRepository.findByReceiverIdOrderBySentTimeDesc(receiverId);
 	}
 
 	
@@ -79,10 +78,14 @@ public class GiftServiceImpl implements GiftService{
 	@Override
 	public List<Gift> findUserGifts(Integer userId) {
 		// TODO Auto-generated method stub
-		List<Gift> giftList = new ArrayList<Gift>();
-		giftList.addAll(findSentGifts(userId));
-		giftList.addAll(findReceivedGifts(userId));
+		List<Gift> giftList = giftRepository.findBySenderIdOrReceiverIdOrderBySentTimeDesc(userId, userId);
 		return giftList;
+	}
+
+	@Override
+	public List<Gift> findAllOrderBySenttimeDesc() {
+		// TODO Auto-generated method stub
+		return giftRepository.findAllByOrderBySentTimeDesc();
 	}
 	
 	

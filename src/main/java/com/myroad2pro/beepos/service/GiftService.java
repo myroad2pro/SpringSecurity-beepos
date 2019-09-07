@@ -7,6 +7,8 @@ import com.myroad2pro.beepos.domain.Gift;
 public interface GiftService {
 	Iterable<Gift> findAll();
 	
+	List<Gift> findAllOrderBySenttimeDesc();
+	
 	List<Gift> findSentGifts(Integer senderId);
 	
 	List<Gift> findReceivedGifts(Integer receiverId);
